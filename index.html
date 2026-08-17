@@ -1,10 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Greedy Algorithms Lab // Interactive Step Simulator & Custom Problem Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Greedy Algorithms Lab // Interactive Step Simulator</title>
+<meta name="author" content="hameme 21">
+<meta name="copyright" content="hameme 21">
+<meta name="theme-color" content="#070a0f">
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,22 +39,34 @@
     --shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+  }
 
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     min-height: 100vh;
-    padding: 24px 20px 80px;
+    padding: clamp(12px, 3vw, 24px) clamp(10px, 3vw, 20px) clamp(40px, 6vw, 80px);
     background-image: 
       radial-gradient(ellipse 80% 50% at 50% -20%, rgba(20, 184, 166, 0.12), transparent 70%),
       radial-gradient(ellipse 60% 40% at 80% 100%, rgba(139, 92, 246, 0.08), transparent 70%);
+    touch-action: manipulation;
   }
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
   }
 
   /* Header */
@@ -61,29 +75,30 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: clamp(16px, 3vw, 24px);
     position: relative;
+    padding: 0 4px;
   }
 
   .badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 4px 12px;
+    padding: 4px 10px;
     border-radius: 9999px;
     background: rgba(20, 184, 166, 0.1);
     border: 1px solid rgba(20, 184, 166, 0.3);
     color: var(--teal);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: clamp(10px, 2.5vw, 11px);
     letter-spacing: 0.5px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     text-transform: uppercase;
   }
 
   h1 {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 26px;
+    font-size: clamp(19px, 5.5vw, 26px);
     font-weight: 700;
     letter-spacing: -0.5px;
     color: #fff;
@@ -91,12 +106,14 @@
     background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    line-height: 1.25;
   }
 
   .sub {
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: clamp(12px, 3.2vw, 14px);
     max-width: 680px;
+    line-height: 1.5;
   }
 
   /* Tabs */
@@ -104,29 +121,32 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 6px;
+    padding: 4px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 20px;
+    gap: 4px;
+    margin-bottom: 16px;
+    width: 100%;
   }
 
   .tab-btn {
     background: transparent;
     border: none;
     border-radius: var(--radius-sm);
-    padding: 12px 14px;
+    padding: 10px 8px;
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-size: clamp(11px, 2.8vw, 13px);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 6px;
     text-align: center;
+    min-height: 42px;
+    user-select: none;
   }
 
   .tab-btn:hover {
@@ -142,30 +162,19 @@
   }
 
   .tab-btn .tab-num {
-    font-size: 11px;
-    opacity: 0.6;
+    font-size: 10px;
+    opacity: 0.7;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 5px;
+    border-radius: 4px;
   }
 
   /* Main Workspace Grid */
   .workspace {
     display: grid;
     grid-template-columns: 1fr 340px;
-    gap: 20px;
-  }
-
-  @media (max-width: 1024px) {
-    .workspace {
-      grid-template-columns: 1fr;
-    }
-    .tabs-wrapper {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .tabs-wrapper {
-      grid-template-columns: 1fr;
-    }
+    gap: 16px;
+    width: 100%;
   }
 
   /* Cards */
@@ -173,24 +182,27 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 20px;
+    padding: clamp(14px, 3.5vw, 20px);
     box-shadow: var(--shadow);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     position: relative;
+    width: 100%;
+    overflow: hidden;
   }
 
   .card-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
+    gap: 8px;
   }
 
   .card-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text);
     display: flex;
@@ -201,10 +213,26 @@
   .card-title svg {
     width: 16px;
     height: 16px;
+    flex-shrink: 0;
     color: var(--teal);
   }
 
-  /* Actions and Button Toolbar */
+  /* Action bar card */
+  .action-bar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .algo-titles-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Button Group & Buttons */
   .btn-group {
     display: flex;
     gap: 8px;
@@ -224,13 +252,20 @@
     transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
+    min-height: 38px;
+    user-select: none;
   }
 
   button.btn:hover:not(:disabled) {
     background: var(--surface-hover);
     border-color: var(--teal);
     color: var(--teal);
+  }
+
+  button.btn:active:not(:disabled) {
+    transform: scale(0.97);
   }
 
   button.btn-primary {
@@ -267,11 +302,15 @@
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
 
   svg.viz-svg {
     width: 100%;
+    min-width: 540px;
     height: auto;
     display: block;
   }
@@ -279,30 +318,43 @@
   /* Stepper & Controls Bar */
   .stepper-bar {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 12px;
-    flex-wrap: wrap;
     background: var(--surface2);
-    padding: 12px 16px;
+    padding: 12px 14px;
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
     margin-top: 14px;
   }
 
-  .step-scrubber {
-    flex: 1;
-    min-width: 140px;
+  .stepper-buttons-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+
+  .stepper-tools-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .step-scrubber {
+    flex: 1;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
   }
 
   input[type="range"] {
-    flex: 1;
+    width: 100%;
     accent-color: var(--teal);
-    height: 6px;
+    height: 8px;
     background: var(--surface3);
-    border-radius: 3px;
+    border-radius: 4px;
     outline: none;
     cursor: pointer;
   }
@@ -311,12 +363,13 @@
     background: var(--surface3);
     color: var(--text);
     border: 1px solid var(--border);
-    padding: 6px 10px;
+    padding: 8px 10px;
     border-radius: 6px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     outline: none;
     cursor: pointer;
+    min-height: 36px;
   }
 
   .step-counter {
@@ -324,6 +377,7 @@
     font-size: 12px;
     color: var(--text-muted);
     white-space: nowrap;
+    margin-left: auto;
   }
 
   .step-counter b {
@@ -336,13 +390,14 @@
     border: 1px solid var(--border);
     border-left: 4px solid var(--teal);
     border-radius: var(--radius-sm);
-    padding: 14px 16px;
+    padding: 12px 14px;
     margin-top: 14px;
-    font-size: 13.5px;
+    font-size: 13px;
     line-height: 1.6;
     color: var(--text);
-    min-height: 72px;
+    min-height: 64px;
     transition: border-left-color 0.2s;
+    word-break: break-word;
   }
 
   .desc-box b { color: var(--teal); font-weight: 600; }
@@ -355,9 +410,9 @@
   .legend {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
+    gap: 10px 14px;
     padding-top: 12px;
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--text-muted);
   }
 
@@ -368,31 +423,35 @@
   }
 
   .swatch {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     border-radius: 3px;
     display: inline-block;
     border: 1px solid rgba(255,255,255,0.15);
+    flex-shrink: 0;
   }
 
   /* Tables */
   .table-container {
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     margin-top: 12px;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
+    width: 100%;
   }
 
   table {
     width: 100%;
+    min-width: 480px;
     border-collapse: collapse;
-    font-size: 12px;
+    font-size: 11.5px;
     font-family: 'JetBrains Mono', monospace;
     text-align: left;
   }
 
   th, td {
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -424,28 +483,32 @@
   .sidebar {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
+    width: 100%;
   }
 
   .code-viewer {
     background: #090d14;
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
-    padding: 12px;
+    padding: 10px;
     font-family: 'Fira Code', 'JetBrains Mono', monospace;
-    font-size: 11.5px;
+    font-size: 11px;
     line-height: 1.6;
     overflow-x: auto;
     color: #94a3b8;
-    max-height: 380px;
+    max-height: 320px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .code-line {
     display: block;
-    padding: 1px 6px;
+    padding: 2px 6px;
     border-radius: 4px;
     transition: all 0.15s ease;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 
   .code-line.active {
@@ -464,7 +527,7 @@
   /* Info / Theory Cards */
   .theory-pill {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 4px 8px;
     border-radius: 4px;
     font-size: 11px;
     font-family: 'JetBrains Mono', monospace;
@@ -480,7 +543,7 @@
   }
 
   .theory-text {
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--text-muted);
     line-height: 1.55;
     margin-top: 8px;
@@ -499,6 +562,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s ease;
+    padding: 10px;
   }
 
   .modal-overlay.open {
@@ -510,12 +574,13 @@
     background: var(--surface);
     border: 1px solid var(--border-light);
     border-radius: var(--radius);
-    width: 90%;
-    max-width: 650px;
+    width: 100%;
+    max-width: 620px;
     max-height: 90vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    padding: 24px;
+    padding: clamp(16px, 4vw, 24px);
     transform: translateY(20px);
     transition: transform 0.2s ease;
   }
@@ -528,14 +593,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--border);
   }
 
   .modal-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
+    font-size: clamp(14px, 3.5vw, 16px);
     font-weight: 700;
     color: #fff;
   }
@@ -544,21 +609,26 @@
     background: none;
     border: none;
     color: var(--text-muted);
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
-    padding: 4px;
+    padding: 6px;
     line-height: 1;
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .close-modal:hover { color: #fff; }
 
   .form-group {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
 
   .form-label {
     display: block;
-    font-size: 12px;
+    font-size: 11.5px;
     font-family: 'JetBrains Mono', monospace;
     color: var(--text-muted);
     margin-bottom: 6px;
@@ -572,9 +642,10 @@
     padding: 10px 12px;
     color: var(--text);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-size: 16px; /* 16px prevents iOS Safari auto-zoom */
     outline: none;
     transition: border-color 0.15s;
+    min-height: 42px;
   }
 
   .form-control:focus {
@@ -584,19 +655,21 @@
   textarea.form-control {
     min-height: 100px;
     resize: vertical;
+    font-size: 13px;
+    line-height: 1.5;
   }
 
   .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
   }
 
   .preset-pills {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
 
   .preset-btn {
@@ -605,16 +678,28 @@
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    padding: 5px 10px;
+    padding: 6px 10px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s;
+    min-height: 34px;
   }
 
   .preset-btn:hover {
     color: var(--teal);
     border-color: var(--teal);
     background: var(--surface3);
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+    position: sticky;
+    bottom: 0;
+    background: var(--surface);
+    padding-top: 8px;
   }
 
   /* Tooltip */
@@ -637,7 +722,7 @@
   /* Interactive Huffman Playground */
   .huffman-tester {
     margin-top: 14px;
-    padding: 14px;
+    padding: 12px;
     background: var(--surface2);
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
@@ -647,12 +732,133 @@
     word-break: break-all;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
-    padding: 8px;
+    padding: 10px;
     background: #090d14;
     border-radius: 4px;
     border: 1px solid var(--border);
     margin-top: 8px;
     color: var(--teal);
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 32px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .copyright-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+  }
+
+  .copyright-badge b {
+    color: var(--teal);
+  }
+
+  /* =========================================================================
+     RESPONSIVE MEDIA QUERIES FOR MOBILE WEB
+     ========================================================================= */
+  @media (max-width: 1024px) {
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+    .tabs-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .tabs-wrapper {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    
+    .tab-btn {
+      padding: 8px 6px;
+      font-size: 11.5px;
+    }
+
+    .action-bar-inner {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn-group {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-group button.btn {
+      width: 100%;
+      padding: 10px 8px;
+      font-size: 11.5px;
+    }
+
+    .stepper-buttons-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .stepper-buttons-row button.btn {
+      min-height: 42px;
+    }
+
+    .stepper-tools-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .speed-select {
+      width: 100%;
+    }
+
+    .step-counter {
+      margin-left: 0;
+      text-align: center;
+      padding-top: 4px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .modal {
+      width: 100%;
+      max-height: 94vh;
+      border-radius: 12px;
+      padding: 16px 14px;
+    }
+
+    .modal-actions {
+      flex-direction: column-reverse;
+      gap: 8px;
+    }
+
+    .modal-actions button.btn {
+      width: 100%;
+      min-height: 44px;
+    }
+
+    footer {
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      gap: 8px;
+    }
   }
 </style>
 </head>
@@ -692,16 +898,16 @@
     <div class="main-content">
       
       <!-- Top Action & Config Bar for current algorithm -->
-      <div class="card" style="padding: 14px 20px; margin-bottom: 14px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-          <div>
+      <div class="card" style="padding: 14px 18px; margin-bottom: 14px;">
+        <div class="action-bar-inner">
+          <div class="algo-titles-box">
             <span id="algo-heading" style="font-family:'JetBrains Mono',monospace; font-weight:700; font-size:14px; color:var(--teal);">Activity Selection Problem</span>
-            <span id="algo-subheading" style="font-size:12px; color:var(--text-muted); margin-left:8px;">Interval Scheduling</span>
+            <span id="algo-subheading" style="font-size:12px; color:var(--text-muted);">Interval Scheduling</span>
           </div>
           <div class="btn-group">
             <button class="btn btn-accent" id="btn-open-custom">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              Custom Problem / Presets
+              Custom / Presets
             </button>
             <button class="btn" id="btn-random-gen">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
@@ -733,23 +939,27 @@
 
         <!-- Stepper Controls -->
         <div class="stepper-bar">
-          <button class="btn" id="ctrl-prev" title="Previous Step (Left Arrow)">&larr; Prev</button>
-          <button class="btn btn-primary" id="ctrl-play" title="Play/Pause (Space)">Play &#9654;</button>
-          <button class="btn" id="ctrl-next" title="Next Step (Right Arrow)">Next &rarr;</button>
-          <button class="btn" id="ctrl-reset" title="Reset to Start (R)">Reset</button>
-
-          <div class="step-scrubber">
-            <input type="range" id="step-range" min="0" max="1" value="0">
+          <div class="stepper-buttons-row">
+            <button class="btn" id="ctrl-prev" title="Previous Step (Left Arrow)">&larr; Prev</button>
+            <button class="btn btn-primary" id="ctrl-play" title="Play/Pause (Space)">Play &#9654;</button>
+            <button class="btn" id="ctrl-next" title="Next Step (Right Arrow)">Next &rarr;</button>
+            <button class="btn" id="ctrl-reset" title="Reset to Start (R)">Reset</button>
           </div>
 
-          <select class="speed-select" id="speed-select">
-            <option value="1500">0.5x</option>
-            <option value="900" selected>1.0x</option>
-            <option value="500">1.5x</option>
-            <option value="250">2.5x</option>
-          </select>
+          <div class="stepper-tools-row">
+            <div class="step-scrubber">
+              <input type="range" id="step-range" min="0" max="1" value="0" aria-label="Step scrubber">
+            </div>
 
-          <div class="step-counter" id="step-indicator">Step <b>1</b> / 1</div>
+            <select class="speed-select" id="speed-select" aria-label="Playback Speed">
+              <option value="1500">0.5x</option>
+              <option value="900" selected>1.0x</option>
+              <option value="500">1.5x</option>
+              <option value="250">2.5x</option>
+            </select>
+
+            <div class="step-counter" id="step-indicator">Step <b>1</b> / 1</div>
+          </div>
         </div>
 
         <!-- Step Narrative Description -->
@@ -824,9 +1034,18 @@
         </div>
       </div>
 
-    </div>
+    </div> <!-- .sidebar -->
+  </div> <!-- .workspace -->
 
-  </div>
+  <!-- Footer with Copyright -->
+  <footer>
+    <div class="copyright-badge">
+      <span>&copy; 2026 <b>hameme 21</b>. All rights reserved.</span>
+    </div>
+    <div style="font-size: 11px; color: var(--text-dim);">
+      Greedy Algorithms Studio // Built for algorithmic problem solving
+    </div>
+  </footer>
 </div>
 
 <!-- CUSTOM PROBLEM MODAL -->
@@ -834,7 +1053,7 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title" id="modal-title">Custom Problem Configuration</div>
-      <button class="close-modal" id="btn-close-modal">&times;</button>
+      <button class="close-modal" id="btn-close-modal" aria-label="Close modal">&times;</button>
     </div>
 
     <div>
@@ -847,7 +1066,7 @@
         <!-- Injected per algorithm -->
       </div>
 
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+      <div class="modal-actions">
         <button class="btn" id="btn-modal-cancel">Cancel</button>
         <button class="btn btn-primary" id="btn-modal-apply">Apply & Simulate</button>
       </div>
@@ -2143,20 +2362,20 @@ const Modal = {
       const txt = mod.data.map(d => `${d.s},${d.f}`).join('\n');
       html += `<div class="form-group">
         <label class="form-label">Activities (One per line: "start,finish"):</label>
-        <textarea class="form-control" id="custom-activity-input" rows="8" placeholder="1,4&#10;3,5&#10;0,6">${txt}</textarea>
+        <textarea class="form-control" id="custom-activity-input" rows="7" placeholder="1,4&#10;3,5&#10;0,6">${txt}</textarea>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Format: integer start time, integer finish time (start &lt; finish)</div>
       </div>`;
     } else if (currentAlgo === 'knapsack') {
       const txt = mod.data.map(d => `${d.name},${d.v},${d.w}`).join('\n');
       html += `<div class="form-row">
         <div class="form-group">
-          <label class="form-label">Knapsack Total Capacity ($W$):</label>
+          <label class="form-label">Knapsack Capacity ($W$):</label>
           <input type="number" class="form-control" id="custom-knapsack-cap" value="${mod.capacity}" min="1">
         </div>
       </div>
       <div class="form-group">
         <label class="form-label">Items (One per line: "name,value,weight"):</label>
-        <textarea class="form-control" id="custom-knapsack-items" rows="7">${txt}</textarea>
+        <textarea class="form-control" id="custom-knapsack-items" rows="6">${txt}</textarea>
       </div>`;
     } else if (currentAlgo === 'huffman') {
       const txt = mod.data.map(d => `${d.ch}:${d.f}`).join(', ');
@@ -2166,13 +2385,13 @@ const Modal = {
       </div>
       <div class="form-group">
         <label class="form-label">Method 2: Custom Symbol Frequencies ("char:freq, char:freq"):</label>
-        <textarea class="form-control" id="custom-huffman-freqs" rows="5" placeholder="a:45, b:13, c:12, d:16, e:9, f:5">${txt}</textarea>
+        <textarea class="form-control" id="custom-huffman-freqs" rows="4" placeholder="a:45, b:13, c:12, d:16, e:9, f:5">${txt}</textarea>
       </div>`;
     } else if (currentAlgo === 'jobseq') {
       const txt = mod.data.map(d => `${d.id},${d.d},${d.p}`).join('\n');
       html += `<div class="form-group">
         <label class="form-label">Jobs (One per line: "JobName,Deadline,Profit"):</label>
-        <textarea class="form-control" id="custom-jobseq-input" rows="8">${txt}</textarea>
+        <textarea class="form-control" id="custom-jobseq-input" rows="7">${txt}</textarea>
         <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">Deadlines must be &ge; 1 integer. Profits &ge; 0.</div>
       </div>`;
     }
